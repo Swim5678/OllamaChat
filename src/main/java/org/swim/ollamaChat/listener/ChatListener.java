@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -44,7 +45,7 @@ public final class ChatListener implements Listener {
             return;
         }
 
-        String prompt = sanitizePrompt(originalMessage);
+        String prompt = extractPrompt(originalMessage);
         if (prompt.isBlank()) {
             return;
         }
@@ -60,12 +61,12 @@ public final class ChatListener implements Listener {
             });
     }
 
-    private String sanitizePrompt(String message) {
-        String sanitized = mentionPattern.matcher(message).replaceAll("").trim();
-        if (sanitized.isBlank()) {
+    private String extractPrompt(String message) {
+        Matcher matcher = mentionPattern.matcher(message);
+        if (!matcher.find()) {
             return message;
         }
-        return sanitized;
+        return matcher.replaceAll("").trim();
     }
 
     private void sendReply(UUID playerId, String playerName, String originalMessage, String reply) {
