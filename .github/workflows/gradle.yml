@@ -1,4 +1,4 @@
-name: Java CI with Gradle (ProGuard)
+name: Java CI with Gradle
 
 on:
   push:
@@ -23,16 +23,14 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build with ProGuard obfuscation
+      - name: Build
         run: ./gradlew build --no-daemon --parallel
 
       - name: Prepare staging folder
         run: |
           mkdir staging
           cp build/libs/*.jar staging/  # Copy obfuscated JAR
-          cp build/proguard/mapping.txt staging/  # Copy ProGuard mapping file
-
       - uses: actions/upload-artifact@v4
         with:
-          name: SignWarp
+          name: OllamaChat
           path: staging
