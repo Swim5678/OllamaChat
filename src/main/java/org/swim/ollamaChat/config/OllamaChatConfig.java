@@ -1,13 +1,14 @@
 package org.swim.ollamaChat.config;
 
-import java.time.Duration;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.time.Duration;
+
 public record OllamaChatConfig(
-    String assistantName,
-    String apiBaseUrl,
-    String model,
-    Duration requestTimeout
+        String assistantName,
+        String apiBaseUrl,
+        String model,
+        Duration requestTimeout
 ) {
     public static OllamaChatConfig from(FileConfiguration config) {
         String assistantName = config.getString("assistant-name", "Ollama").trim();
@@ -31,10 +32,10 @@ public record OllamaChatConfig(
         }
 
         return new OllamaChatConfig(
-            assistantName,
-            apiBaseUrl,
-            model,
-            Duration.ofSeconds(timeoutSeconds)
+                assistantName,
+                apiBaseUrl,
+                model,
+                Duration.ofSeconds(timeoutSeconds)
         );
     }
 }

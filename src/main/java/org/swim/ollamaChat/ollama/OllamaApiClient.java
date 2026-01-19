@@ -1,6 +1,7 @@
 package org.swim.ollamaChat.ollama;
 
 import com.google.gson.Gson;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -21,26 +22,31 @@ public final class OllamaApiClient {
         this.model = model;
         this.requestTimeout = requestTimeout;
         this.httpClient = HttpClient.newBuilder()
-            .connectTimeout(requestTimeout)
-            .build();
+                .connectTimeout(requestTimeout)
+                .build();
         this.gson = new Gson();
+    }
+
+    private static URI buildChatUri(String apiBaseUrl) {
+        String normalized = apiBaseUrl.endsWith("/") ? apiBaseUrl : apiBaseUrl + "/";
+        return URI.create(normalized + "chat");
     }
 
     public CompletableFuture<String> requestReply(String prompt) {
         ChatRequest payload = new ChatRequest(
-            model,
-            List.of(new ChatMessage("user", prompt)),
-            false
+                model,
+                List.of(new ChatMessage("user", prompt)),
+                false
         );
         HttpRequest request = HttpRequest.newBuilder(chatUri)
-            .timeout(requestTimeout)
-            .header("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(payload)))
-            .build();
+                .timeout(requestTimeout)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(payload)))
+                .build();
 
         return httpClient
-            .sendAsync(request, HttpResponse.BodyHandlers.ofString())
-            .thenApply(this::parseResponse);
+                .sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(this::parseResponse);
     }
 
     private String parseResponse(HttpResponse<String> response) {
@@ -61,14 +67,12 @@ public final class OllamaApiClient {
         return content;
     }
 
-    private static URI buildChatUri(String apiBaseUrl) {
-        String normalized = apiBaseUrl.endsWith("/") ? apiBaseUrl : apiBaseUrl + "/";
-        return URI.create(normalized + "chat");
+    private record ChatRequest(String model, List<ChatMessage> messages, boolean stream) {
     }
 
-    private record ChatRequest(String model, List<ChatMessage> messages, boolean stream) {}
+    private record ChatMessage(String role, String content) {
+    }
 
-    private record ChatMessage(String role, String content) {}
-
-    private record ChatResponse(ChatMessage message) {}
+    private record ChatResponse(ChatMessage message) {
+    }
 }
