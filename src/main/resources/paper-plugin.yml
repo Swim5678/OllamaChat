@@ -1,5 +1,5 @@
 name: OllamaChat
 version: '1.0-SNAPSHOT'
 main: org.swim.ollamaChat.OllamaChat
-api-version: '1.21'
+api-version: '1.21.11'
 loader: org.swim.ollamaChat.loader.OllamaChatLoader
