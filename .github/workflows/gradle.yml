@@ -1,0 +1,38 @@
+name: Java CI with Gradle (ProGuard)
+
+on:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      COPILOT_AGENT_FIREWALL_ALLOW_LIST_ADDITIONS: repo.papermc.io,jitpack.io
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build with ProGuard obfuscation
+        run: ./gradlew build --no-daemon --parallel
+
+      - name: Prepare staging folder
+        run: |
+          mkdir staging
+          cp build/libs/*.jar staging/  # Copy obfuscated JAR
+          cp build/proguard/mapping.txt staging/  # Copy ProGuard mapping file
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SignWarp
+          path: staging
