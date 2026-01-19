@@ -1,8 +1,7 @@
 ---
-applyTo: **/*.bash,**/*.c,**/*.ddl,**/*.dml,**/*.go,**/*.h,**/*.htm,**/*.html,**/*.java,**/*.js,**/*.jsx,**/*.mjs,**/*.php,**/*.ps1,**/*.py,**/*.pyi,**/*.pyx,**/*.rb,**/*.sh,**/*.sql,**/*.ts,**/*.tsx
-title: Input validation and injection defense (SQL/LDAP/OS), parameterization, prototype
-  pollution
-version: 1.0.0
+applyTo: '**/*.bash,**/*.c,**/*.ddl,**/*.dml,**/*.go,**/*.h,**/*.htm,**/*.html,**/*.java,**/*.js,**/*.jsx,**/*.mjs,**/*.php,**/*.ps1,**/*.py,**/*.pyi,**/*.pyx,**/*.rb,**/*.sh,**/*.sql,**/*.ts,**/*.tsx'
+description: Input validation and injection defense (SQL/LDAP/OS), parameterization, prototype pollution
+version: 1.0.1
 ---
 
 rule_id: codeguard-0-input-validation-injection
