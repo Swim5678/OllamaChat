@@ -1,0 +1,4 @@
+name: OllamaChat
+version: '1.0-SNAPSHOT'
+main: org.swim.ollamaChat.OllamaChat
+api-version: '1.21'
