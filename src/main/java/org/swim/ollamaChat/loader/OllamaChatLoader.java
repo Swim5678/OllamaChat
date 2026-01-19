@@ -12,18 +12,18 @@ public final class OllamaChatLoader implements PluginLoader {
     public void classloader(PluginClasspathBuilder classpathBuilder) {
         MavenLibraryResolver resolver = new MavenLibraryResolver();
         resolver.addDependency(new Dependency(
-            new DefaultArtifact("com.google.code.gson:gson:2.10.1"),
-            null
+                new DefaultArtifact("com.google.code.gson:gson:2.10.1"),
+                null
         ));
         resolver.addRepository(new RemoteRepository.Builder(
-            "paper",
-            "default",
-            "https://repo.papermc.io/repository/maven-public/"
+                "paper",
+                "default",
+                "https://repo.papermc.io/repository/maven-public/"
         ).build());
         resolver.addRepository(new RemoteRepository.Builder(
-            "central",
-            "default",
-            MavenLibraryResolver.MAVEN_CENTRAL_DEFAULT_MIRROR
+                "central",
+                "default",
+                MavenLibraryResolver.MAVEN_CENTRAL_DEFAULT_MIRROR
         ).build());
 
         classpathBuilder.addLibrary(resolver);

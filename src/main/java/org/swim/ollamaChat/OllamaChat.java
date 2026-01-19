@@ -14,14 +14,14 @@ public final class OllamaChat extends JavaPlugin {
         saveDefaultConfig();
         OllamaChatConfig config = OllamaChatConfig.from(getConfig());
         OllamaApiClient apiClient = new OllamaApiClient(
-            config.apiBaseUrl(),
-            config.model(),
-            config.requestTimeout()
+                config.apiBaseUrl(),
+                config.model(),
+                config.requestTimeout()
         );
 
         chatListener = new ChatListener(this, apiClient, config, getLogger());
         getServer().getPluginManager().registerEvents(chatListener, this);
-        getLogger().info("OllamaChat 已啟用，助手名稱: " + config.assistantName());
+        getLogger().info("OllamaChat is enabled, assistant name: " + config.assistantName());
 
     }
 

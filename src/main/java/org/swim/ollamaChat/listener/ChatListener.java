@@ -1,12 +1,6 @@
 package org.swim.ollamaChat.listener;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
-import java.util.UUID;
-import java.util.concurrent.CompletionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -15,10 +9,17 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.swim.ollamaChat.config.OllamaChatConfig;
 import org.swim.ollamaChat.ollama.OllamaApiClient;
+
+import java.util.UUID;
+import java.util.concurrent.CompletionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class ChatListener implements Listener {
     private final Plugin plugin;
@@ -33,8 +34,8 @@ public final class ChatListener implements Listener {
         this.config = config;
         this.logger = logger;
         this.mentionPattern = Pattern.compile(
-            "@" + Pattern.quote(config.assistantName()),
-            Pattern.CASE_INSENSITIVE
+                "@" + Pattern.quote(config.assistantName()),
+                Pattern.CASE_INSENSITIVE
         );
     }
 
@@ -54,11 +55,11 @@ public final class ChatListener implements Listener {
         String playerName = event.getPlayer().getName();
 
         apiClient.requestReply(prompt)
-            .thenAccept(reply -> sendReply(playerId, playerName, originalMessage, reply))
-            .exceptionally(throwable -> {
-                handleFailure(playerId, throwable);
-                return null;
-            });
+                .thenAccept(reply -> sendReply(playerId, playerName, originalMessage, reply))
+                .exceptionally(throwable -> {
+                    handleFailure(playerId, throwable);
+                    return null;
+                });
     }
 
     private String extractPrompt(String message) {
@@ -78,24 +79,24 @@ public final class ChatListener implements Listener {
 
     private Component buildResponse(String playerName, String originalMessage, String reply) {
         TextComponent quote = Component.text()
-            .append(Component.text("↪ ").color(NamedTextColor.DARK_GRAY))
-            .append(Component.text(playerName).color(NamedTextColor.GRAY))
-            .append(Component.text(": ").color(NamedTextColor.DARK_GRAY))
-            .append(Component.text(originalMessage).color(NamedTextColor.GRAY))
-            .decoration(TextDecoration.ITALIC, true)
-            .build();
+                .append(Component.text("↪ ").color(NamedTextColor.DARK_GRAY))
+                .append(Component.text(playerName).color(NamedTextColor.GRAY))
+                .append(Component.text(": ").color(NamedTextColor.DARK_GRAY))
+                .append(Component.text(originalMessage).color(NamedTextColor.GRAY))
+                .decoration(TextDecoration.ITALIC, true)
+                .build();
 
         TextComponent answer = Component.text()
-            .append(Component.text(config.assistantName()).color(NamedTextColor.AQUA))
-            .append(Component.text(": ").color(NamedTextColor.DARK_GRAY))
-            .append(Component.text(reply).color(NamedTextColor.WHITE))
-            .build();
+                .append(Component.text(config.assistantName()).color(NamedTextColor.AQUA))
+                .append(Component.text(": ").color(NamedTextColor.DARK_GRAY))
+                .append(Component.text(reply).color(NamedTextColor.WHITE))
+                .build();
 
         return Component.text()
-            .append(quote)
-            .append(Component.newline())
-            .append(answer)
-            .build();
+                .append(quote)
+                .append(Component.newline())
+                .append(answer)
+                .build();
     }
 
     private void handleFailure(UUID playerId, Throwable throwable) {
