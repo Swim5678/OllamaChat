@@ -1,0 +1,4 @@
+assistant-name: "Ollama"
+api-base-url: "http://localhost:11434/api"
+model: "llama3.2"
+request-timeout-seconds: 30
